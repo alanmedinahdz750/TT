@@ -1,0 +1,61 @@
+mysql -h db-dicomate.mysql.database.azure.com -u dicomate -p
+
+CONSULTAS SENCILLAS:
+select nombre, apellido_paterno, apellido_materno, correo, telefono, contrasena, iduniversidad, idarea, foto_perfil from usuarios;
+select id, idUsuario, imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada from estudios;
+
+CREATE TABLE `Usuarios` (
+  `id` varchar(255) PRIMARY KEY,
+  `nombre` varchar(255),
+  `apellido_paterno` varchar(255),
+  `apellido_materno` varchar(255),
+  `correo` varchar(255),
+  `telefono` varchar(12),
+  `contrasena` varchar(255),
+  `iduniversidad` int,
+  `idarea` int,
+  `foto_perfil` varchar(255)
+);
+
+CREATE TABLE `Estudios` (
+  `id` int AUTO_INCREMENT PRIMARY KEY,
+  `idUsuario` varchar(255),
+  `imagen` varchar(255),
+  `json` varchar(255) COMMENT 'JSON',
+  `descripcion` varchar(255),
+  `tipo` int,
+  `parte_cuerpo` int,
+  `notas` varchar(255),
+  `imagen_alterada` boolean
+);
+
+CREATE TABLE `Universidades` (
+  `id` int PRIMARY KEY,
+  `universidad` varchar(255),
+  `direccion` varchar(255)
+);
+
+CREATE TABLE `Areas` (
+  `id` int PRIMARY KEY,
+  `area` varchar(255)
+);
+
+CREATE TABLE `Tipos` (
+  `id` int PRIMARY KEY,
+  `tipo` varchar(255)
+);
+
+CREATE TABLE `Partes_cuerpo` (
+  `id` int PRIMARY KEY,
+  `parte` varchar(255)
+);
+
+ALTER TABLE `Estudios` ADD FOREIGN KEY (`idUsuario`) REFERENCES `Usuarios` (`id`);
+
+ALTER TABLE `Usuarios` ADD FOREIGN KEY (`iduniversidad`) REFERENCES `Universidades` (`id`);
+
+ALTER TABLE `Usuarios` ADD FOREIGN KEY (`idarea`) REFERENCES `Areas` (`id`);
+
+ALTER TABLE `Estudios` ADD FOREIGN KEY (`tipo`) REFERENCES `Tipos` (`id`);
+
+ALTER TABLE `Estudios` ADD FOREIGN KEY (`parte_cuerpo`) REFERENCES `Partes_cuerpo` (`id`);

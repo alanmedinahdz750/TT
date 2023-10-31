@@ -1,0 +1,6 @@
+curl https://demo.orthanc-server.com/instances/84f69a49-f79f0806-71d4e713-97af8968-d5aa394d/preview > Preview.PNG
+
+BD:
+    usuario: dicomate
+    pssw : trabajoterminal1$
+    mysql -h dicomatetestdb.mysql.database.azure.com -u dicomate -p
