@@ -102,22 +102,22 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
                     if inicio != None and fin != None:
                         # Tenemos paginación, debemos dar los estudios entre los estudios que nos estan pidiendo
-                        query = "SELECT imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada FROM Estudios  WHERE idUsuario = %s ORDER BY idImagen DESC LIMIT %s OFFSET %s"
+                        query = "SELECT id, imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada FROM Estudios  WHERE idUsuario = %s ORDER BY id DESC LIMIT %s OFFSET %s"
                         values = (idUsuario,fin-inicio,inicio)
 
                     elif inicio != None and fin == None:
                         # Tenemos inicio, pero no tenemo fin, debemos de consultar los estudios desde ese fin hasta el ultimo
-                        query = "SELECT imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada FROM Estudios  WHERE idUsuario = %s ORDER BY idImagen DESC OFFSET %s"
+                        query = "SELECT id, imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada FROM Estudios  WHERE idUsuario = %s ORDER BY id DESC OFFSET %s"
                         values = (idUsuario,inicio)
 
                     elif inicio == None and fin != None:
                         # No tenemos inicio, pero si fin, debemos tomar desde el primero hasta el limite
-                        query = "SELECT imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada FROM Estudios  WHERE idUsuario = %s ORDER BY idImagen DESC LIMIT %s"
+                        query = "SELECT id, imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada FROM Estudios  WHERE idUsuario = %s ORDER BY id DESC LIMIT %s"
                         values = (idUsuario,fin)
 
                     else:
                         # No tenemos ni inicio, ni fin, debemos dar todos los estudios
-                        query = "SELECT imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada FROM Estudios  WHERE idUsuario = %s ORDER BY idImagen DESC"
+                        query = "SELECT id, imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada FROM Estudios  WHERE idUsuario = %s ORDER BY id DESC"
                         values = (idUsuario,)
 
                     cursor.execute(query, values)
