@@ -77,7 +77,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             if idUsuario is None: return func.HttpResponse('Error: Se requiere el id del usuario.', status_code=400)
             
             # Conexión a la base de datos
-            cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="dicomatetestdb.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
+            cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
             cursor = cnx.cursor()
             
             # Verificamos si es que hay paginación, si no lo hay, vamos a entregar todos los estudios
