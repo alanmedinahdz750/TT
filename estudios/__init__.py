@@ -122,7 +122,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
                     cursor.execute(query, values)
 
-                    consulta = cursor.fetchall()
+                    columns = [column[0] for column in cursor.description]
+                    results = []
+                    for row in cursor.fetchall():
+                        results.append(dict(zip(columns, row)))
+                    #consulta = cursor.fetchall()
 
             except Exception as e:
                 return func.HttpResponse('Error al realizar la consulta: {}'.format(str(e)), status_code=500)
@@ -131,7 +135,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 cursor.close()
                 cnx.close()
             
-            json_response = json.dumps(consulta)
+            json_response = json.dumps(results)
 
             return func.HttpResponse(json_response, status_code=200)
 

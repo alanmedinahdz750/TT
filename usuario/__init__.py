@@ -19,8 +19,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             cursor.execute(query, values)
             # 2. Verificar si se encontró un usuario con las credenciales proporcionadas
-            cursor.rowfactory = lambda *args: dict(zip([d[0] for d in cursor.description], args))
-            datosUsuario = cursor.fetchone()
+            columns = [column[0] for column in cursor.description]
+            datosUsuario = dict(zip(columns, cursor.fetchone()))
 
             if datosUsuario is None:
                 return func.HttpResponse('Error: Usuario no encontrado.', status_code=400)
