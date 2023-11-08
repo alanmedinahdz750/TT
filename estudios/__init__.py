@@ -32,7 +32,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
                 cursor.execute(query, values)
                 
-                # Verificar si se encontró un nombre de usuario
+                # Verificar si se encontró un usuario
                 id_verificacion = cursor.fetchone()
                 if id_verificacion is None:
                     return func.HttpResponse('Error: Usuario no encontrado.', status_code=400)
