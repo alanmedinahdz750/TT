@@ -14,7 +14,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         try:
             # 1. Consultar el id de usuario con correo y contraseña proporcionados
-            query = "SELECT * FROM usuarios WHERE id = %s"
+            query = "SELECT * FROM usuarios WHERE id = '%s'"
             values = (idUsuario)
 
             cursor.execute(query, values)
