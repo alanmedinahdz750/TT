@@ -9,7 +9,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         datos = req.get_json()
 
         # Validar que todos los campos requeridos estén presentes en el JSON
-        campos_requeridos = ['nombre', 'contrasena']
+        campos_requeridos = ['correo', 'contrasena']
 
         for campo in campos_requeridos:
             if campo not in datos:
@@ -20,22 +20,22 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         cursor = cnx.cursor()
 
         try:
-            # 1. Consultar el id de usuario con nombre y contraseña proporcionados
-            query = "SELECT id FROM usuarios WHERE nombre = %s AND contrasena = %s"
-            values = (datos['nombre'], datos['contrasena'])
+            # 1. Consultar el id de usuario con correo y contraseña proporcionados
+            query = "SELECT id FROM usuarios WHERE correo = %s AND contrasena = %s"
+            values = (datos['correo'], datos['contrasena'])
 
             cursor.execute(query, values)
             # 2. Verificar si se encontró un usuario con las credenciales proporcionadas
             usuario = cursor.fetchone()
 
             if usuario is None:
-                query = "SELECT nombre FROM usuarios WHERE nombre = %s"
-                values = (datos['nombre'],)
+                query = "SELECT correo FROM usuarios WHERE correo = %s"
+                values = (datos['correo'],)
 
                 cursor.execute(query, values)
-                # Verificar si se encontró un nombre de usuario
-                nombre = cursor.fetchone()
-                if nombre is None:
+                # Verificar si se encontró un correo de usuario
+                correo = cursor.fetchone()
+                if correo is None:
                     return func.HttpResponse('Error: Usuario no encontrado.', status_code=400)
                 else:
                     return func.HttpResponse('Error: Contraseña incorrecta.', status_code=400)
