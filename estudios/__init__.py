@@ -22,7 +22,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     return func.HttpResponse('Error: El campo {} es requerido.'.format(campo), status_code=400)
 
             # Conexión a la base de datos
-            cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="dicomatetestdb.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
+            cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
             cursor = cnx.cursor()
 
             try:

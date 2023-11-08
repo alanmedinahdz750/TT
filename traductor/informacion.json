@@ -1,0 +1,13 @@
+{
+    "TOMOGRAFIA POR EMISION DE POSITRONES DE CUERPO COMPLETO" : "Tomografía por Emisión de Positrones de Cuerpo Completo", 
+    "TOMOGRAFIA COMPUTARIZADA CABEZA/CUELLO 5.0 B30s" : "Tomografía Computarizada", 
+    "CABEZA_CUELLO_PET-TAC" : " es  PET-TAC (Tomografía por Emisión de Positrones con Tomografía Computarizada)", 
+    "CUELLO" : " se realizó del cuello", 
+    "TOMOGRAFIA POR EMISION DE POSITRONES DE CUERPO COMPLETO SIN CORREGIR" : "Tomografía por Emisión de Positrones de Cuerpo Completo que no ha sido corregido o ajustado para ciertos artefactos o irregularidades", 
+    "TOMOGRAFIA COMPUTARIZADA DE CUERPO COMPLETO CON CONTRASTE 5.0 B30s" : "Tomografía Computarizada de Cuerpo Completo con Contraste", 
+    "RESONANCIA MAGNETICA CORONAL CON TECNICA 'FAST SPIN ECHO' Y 'PROTON DENSITY'" : "Resonancia magnética coronal con técnica de Fast Spin Echo que permite obtener imágenes rápidamente, al ser PD,  resalta los tejidos basándose en la densidad de protones", 
+    "RESONANCIA MAGNETICA CORONAL CON TECNICA 'FAST SPIN ECHO' Y 'T1'" : "Resonancia magnética coronal con técnica de Fast Spin Echo que permite obtener imágenes rápidamente, al ser T1, los tejidos grasos suelen aparecer brillantes y los tejidos cerebrales y musculares aparecen en tonos de gris", 
+    "RESONANCIA MAGNETICA AXIAL CON TECNICA 'FAST SPIN ECHO' Y 'DENSIDAD DE PROTONES'" : "Resonancia magnética coronal con técnica de Fast Spin Echo que permite obtener imágenes rápidamente, al ser PD,  resalta los tejidos basándose en la densidad de protones", 
+    "RESONANCIA MAGNETICA SAGITAL CON TECNICA 'FAS RECOVERY FAST SPIN ECHO', 'PROTON DENSITY' y SUPRECIÓN DE LA GRASA" : "Resonancia magnética con técnica de Fast Recovery Fast Spin Echo que permite obtener imágenes con un tiempo relativamente corto, al ser PD, resalta los tejidos basándose en la densidad de protones y al ser FS,  suprime la señal de los tejidos grasos en las imágenes", 
+    "RESONANCIA MAGNETICA SAGITAL SAGITAL CON  TECNICA 'FAST SPIN ECHO' Y 'T2'" : "Resonancia magnética sagital con técnica de Fast Spin Echo que permite e obtener imágenes más rápidamente, al ser T2, los líquidos y los tejidos patológicos suelen aparecer brillantes"
+}

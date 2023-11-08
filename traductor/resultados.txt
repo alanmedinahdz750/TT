@@ -1,62 +1,66 @@
 informacion: [
-    "Tomografía Computarizada es  PET-TAC (Tomografía por Emisión de Positrones con Tomografía Computarizada) se realizó del cuello",
-    "Resonancia magnética coronal con técnica de Fast Spin Echo que permite obtener imágenes rápidamente, al ser PD,  resalta los tejidos basándose en la densidad de protones",
-    "Tomografía Computarizada de Cuerpo Completo con Contraste",
-    "Tomografía por Emisión de Positrones de Cuerpo Completo es  PET-TAC (Tomografía por Emisión de Positrones con Tomografía Computarizada)",
     "Resonancia magnética con técnica de Fast Recovery Fast Spin Echo que permite obtener imágenes con un tiempo relativamente corto, al ser PD, resalta los tejidos basándose en la densidad de protones y al ser FS,  suprime la señal de los tejidos grasos en las imágenes",
-    "Tomografía por Emisión de Positrones de Cuerpo Completo",
+    "Tomografía por Emisión de Positrones de Cuerpo Completo que no ha sido corregido o ajustado para ciertos artefactos o irregularidades",
+    "Resonancia magnética coronal con técnica de Fast Spin Echo que permite obtener imágenes rápidamente, al ser PD,  resalta los tejidos basándose en la densidad de protones",
     "Resonancia magnética coronal con técnica de Fast Spin Echo que permite obtener imágenes rápidamente, al ser T1, los tejidos grasos suelen aparecer brillantes y los tejidos cerebrales y musculares aparecen en tonos de gris",
+    "Tomografía por Emisión de Positrones de Cuerpo Completo es  PET-TAC (Tomografía por Emisión de Positrones con Tomografía Computarizada)",
+    "Tomografía Computarizada de Cuerpo Completo con Contraste",
     "No hay informacion",
-    "Resonancia magnética sagital con técnica de Fast Spin Echo que permite e obtener imágenes más rápidamente, al ser T2, los líquidos y los tejidos patológicos suelen aparecer brillantes",
-    "Tomografía por Emisión de Positrones de Cuerpo Completo que no ha sido corregido o ajustado para ciertos artefactos o irregularidades"
+    "Tomografía por Emisión de Positrones de Cuerpo Completo",
+    "Tomografía Computarizada es  PET-TAC (Tomografía por Emisión de Positrones con Tomografía Computarizada) se realizó del cuello",
+    "Resonancia magnética sagital con técnica de Fast Spin Echo que permite e obtener imágenes más rápidamente, al ser T2, los líquidos y los tejidos patológicos suelen aparecer brillantes"
 ]
 SeriesDescription: [
-    "RESONANCIA MAGNETICA SAGITAL CON TECNICA 'FAS RECOVERY FAST SPIN ECHO', 'PROTON DENSITY' y SUPRECIÓN DE LA GRASA",
     "",
-    "sT2W/FLAIR",
-    "T1/3D/FFE/C",
-    "Dentascan  0.75  H60s",
-    "TOMOGRAFIA COMPUTARIZADA DE CUERPO COMPLETO CON CONTRASTE 5.0 B30s",
     "TOMOGRAFIA POR EMISION DE POSITRONES DE CUERPO COMPLETO",
-    "RESONANCIA MAGNETICA CORONAL CON TECNICA 'FAST SPIN ECHO' Y 'PROTON DENSITY'",
-    "Loc (Right)",
-    "COU IV",
-    "HEAD/NECK  2.0  B30s",
-    "T1/SE/extrp",
-    "OS",
-    "T2W/FE-EPI",
-    "RESONANCIA MAGNETICA SAGITAL SAGITAL CON  TECNICA 'FAST SPIN ECHO' Y 'T2'",
-    "TOMOGRAFIA COMPUTARIZADA CABEZA/CUELLO 5.0 B30s",
-    "Pied/cheville  1.0mm std",
+    "RESONANCIA MAGNETICA CORONAL CON TECNICA 'FAST SPIN ECHO' Y 'T1'",
+    "CABEZA CUELLO 2.0 B30s",
+    "PIE TOBILLO 1.0mm ESTANDAR",
     "RESONANCIA MAGNETICA AXIAL CON TECNICA 'FAST SPIN ECHO' Y 'DENSIDAD DE PROTONES'",
-    "Eclipse Doses",
-    "TOMOGRAFIA POR EMISION DE POSITRONES DE CUERPO COMPLETO SIN CORREGIR",
-    "sT2/TSE/T",
-    "ARIA RadOnc Structure Sets",
+    "RESONANCIA MAGNETICA CON PONDERACION EN T2 SATURADA CON TECNICA 'TURBO SPIN ECHO' Y CON CONTRASTE",
+    "RESONANCIA MAGNETICA CON SECUENCIA T2 PONDERADA EN SATURACION GRASA y RECUPERACIÓN DE LA INVERSIÓN ATENUADA POR FLUIDO",
+    "CONJUNTOS DE ESTRUCTURAS UTILIZADOS EN EL SOFTWARE DE RADIOTERAPIA ONCOLÓGICA ARIA",
+    "TOMOGRAFIA COMPUTARIZADA MAXILOFACIAL A 0.75mm y 'H60s'",
+    "RESONANCIA MAGNETICA CORONAL CON TECNICA 'FAST SPIN ECHO' Y 'PROTON DENSITY'",
+    "RESONANCIA MAGNETICA CON PONDERACION EN T1 EN 3D CON TECNICA ECO DE CAMPO RAPIDO Y CON CONTRASTE",
+    "RESONANCIA MAGNETICA SAGITAL SAGITAL CON  TECNICA 'FAST SPIN ECHO' Y 'T2'",
+    "RESONANCIA MAGNETICA CON PONDERACION EN T1 CON  TECNICA 'SPIN ECHO' Y 'extrp'",
+    "RESONANCIA MAGNETICA SAGITAL CON TECNICA 'FAS RECOVERY FAST SPIN ECHO', 'PROTON DENSITY' y SUPRECIÓN DE LA GRASA",
+    "UBICACION DERECHA",
+    "DOSIS DE ECLIPSE (MODIFICADO CON EL SOFTWARE ECLIPSE)",
+    "TOMOGRAFIA COMPUTARIZADA CABEZA/CUELLO 5.0 B30s",
+    "LADO IZQUIERDO",
+    "TOMOGRAFIA COMPUTARIZADA DE CUERPO COMPLETO CON CONTRASTE 5.0 B30s",
+    "COU IV",
+    "RESONANCIA MAGNETICA CON PONDERACION EN T2 CON TECNICA 'FAST ECHO' Y 'ECHO PLANAR IMAGING'",
     "SOUS",
-    "RESONANCIA MAGNETICA CORONAL CON TECNICA 'FAST SPIN ECHO' Y 'T1'"
+    "TOMOGRAFIA POR EMISION DE POSITRONES DE CUERPO COMPLETO SIN CORREGIR"
 ]
 StudyDescription: [
+    "RT^HEAD_NECK (Adult)",
     "IRM cérébrale, neuro-crâne",
-    "CT2 tête, face, sinus",
+    "Thorax^1WB_PETCT",
     "Tête^Dental (Adulte)",
     "CABEZA_CUELLO_PET-TAC",
-    "RT^HEAD_NECK (Adult)",
-    "Knee (R)",
+    "CT2 tête, face, sinus",
     "Extrémités inférieures^Pied_cheville_UHR (Adulte)",
-    "Thorax^1WB_PETCT"
+    "RODILLA (DERECHA)"
 ]
 BodyPartExamined: [
-    "HEAD",
+    "RT^HEAD_NECK (Adult)",
+    "IRM cérébrale, neuro-crâne",
+    "PECHO",
+    "Thorax^1WB_PETCT",
     "EXTREMITY",
-    "No se conoce la parte del cuerpo",
-    "CHEST",
-    "CUELLO"
+    "HEAD",
+    "CT2 tête, face, sinus",
+    "CUELLO",
+    "RODILLA (DERECHA)"
 ]
 Modality: [
-    "MR",
-    "TOMOGRAFIA POR EMISION DE POSITRONES (PET).",
     "RTDOSE",
+    "RTSTRUCT",
+    "PT",
     "TOMOGRAFIA COMPUTARIZADA",
-    "RTSTRUCT"
+    "MR"
 ]

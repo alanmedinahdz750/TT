@@ -1,0 +1,11 @@
+{
+    "Knee (R)": "RODILLA (DERECHA)",
+    "Thorax^1WB_PETCT" : "Thorax^1WB_PETCT",
+    "CT2 tête, face, sinus" : "CT2 tête, face, sinus",
+    "IRM cérébrale, neuro-crâne" : "IRM cérébrale, neuro-crâne",
+    "Tête^Dental (Adulte)" : "Tête^Dental (Adulte)",
+    "Extrémités inférieures^Pied_cheville_UHR (Adulte)" : "Extrémités inférieures^Pied_cheville_UHR (Adulte)",
+    "Neck^1HEAD_NECK_PETCT" : "CABEZA_CUELLO_PET-TAC",
+    "RT^HEAD_NECK (Adult)" : "RT^HEAD_NECK (Adult)",
+    "" : "NO HAY DESCRIPCIÓN DEL ESTUDIO"
+}
