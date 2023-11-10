@@ -5,3 +5,4 @@
 azure-functions
 mysql-connector-python
 requests
+openai==0.28
