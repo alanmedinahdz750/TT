@@ -7,6 +7,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         # Obtener los datos del cuerpo de la solicitud HTTP en formato JSON
         idUsuario = req.params.get('idUsuario')
+        if idUsuario is None: return func.HttpResponse('Error: Se requiere el id del usuario.', status_code=400)
 
         # Conexión a la base de datos
         cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)

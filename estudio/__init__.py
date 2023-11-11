@@ -22,13 +22,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 values = (idEstudio,)
 
                 cursor.execute(query, values)
-
-                if cursor.fetchone() is None:
-                    return func.HttpResponse('Error: Estudio no encontrado.', status_code=400)
             
                 # Pasar los valores a json
                 columns = [column[0] for column in cursor.description]
                 result = dict(zip(columns, cursor.fetchone()))
+
+                if result is None:
+                    return func.HttpResponse('Error: Estudio no encontrado.', status_code=400)
+
+                cnx.commit()
 
             except Exception as e:
                 return func.HttpResponse('Error al realizar la consulta: {}'.format(str(e)), status_code=500)
