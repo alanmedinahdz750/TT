@@ -26,10 +26,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 if cursor.fetchone() is None:
                     return func.HttpResponse('Error: Estudio no encontrado.', status_code=400)
             
+                # Pasar los valores a json
                 columns = [column[0] for column in cursor.description]
-                results = []
-                for row in cursor.fetchall():
-                    results.append(dict(zip(columns, row)))
+                result = dict(zip(columns, cursor.fetchone()))
 
             except Exception as e:
                 return func.HttpResponse('Error al realizar la consulta: {}'.format(str(e)), status_code=500)
@@ -38,7 +37,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 cursor.close()
                 cnx.close()
             
-            json_response = json.dumps(results)
+            json_response = json.dumps(result)
 
             return func.HttpResponse(json_response, status_code=200)
 
