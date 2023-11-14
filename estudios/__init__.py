@@ -1,5 +1,6 @@
 import mysql.connector
 import json
+import base64
 import azure.functions as func
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -15,7 +16,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             if idUsuario is None: return func.HttpResponse('Error: Se requiere el id del usuario.', status_code=400)
 
             # Validar que todos los campos requeridos estén presentes en el JSON
-            campos_requeridos = ['imagen', 'json', 'descripcion', 'tipo', 'parte_cuerpo', 'notas', 'imagen_alterada']
+            campos_requeridos = ['imagen', 'json', 'descripcion', 'tipo', 'parte_cuerpo', 'notas', 'imagen_alterada','imagen_base64']
 
             for campo in campos_requeridos:
                 if campo not in datos:
@@ -37,9 +38,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 if id_verificacion is None:
                     return func.HttpResponse('Error: Usuario no encontrado.', status_code=400)
                 else:
+                    # Decodifica la imagen
+                    imagen_decodificada = base64.b64decode(datos['imagen_base64'])
+
                     # Insertar un nuevo estudio en la base de datos
-                    query = "INSERT INTO Estudios (idUsuario, imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-                    values = (idUsuario, datos['imagen'], datos['json'], datos['descripcion'], datos['tipo'], datos['parte_cuerpo'], datos['notas'], datos['imagen_alterada'])
+                    query = "INSERT INTO Estudios (idUsuario, imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada, imagen_base64) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                    values = (idUsuario, datos['imagen'], datos['json'], datos['descripcion'], datos['tipo'], datos['parte_cuerpo'], datos['notas'], datos['imagen_alterada'], imagen_decodificada)
 
                     cursor.execute(query, values)
 
@@ -99,8 +103,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 
                 else:
                     # Consultar los estudios existentes
-                    query = "SELECT e.id, e.imagen, e.json, e.descripcion, e.tipo as idTipo, t.tipo, e.parte_cuerpo as idParte, p.parte, e.notas, e.imagen_alterada FROM Estudios as e INNER JOIN Tipos as t INNER JOIN Partes_cuerpo as p ON e.tipo=t.id and e.parte_cuerpo=p.id WHERE e.idUsuario = %s ORDER BY id DESC "
-                    # query = "SELECT id, imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada FROM Estudios  WHERE idUsuario = %s ORDER BY id DESC "
+                    query = "SELECT e.id, e.imagen, e.json, e.descripcion, e.tipo as idTipo, t.tipo, e.parte_cuerpo as idParte, p.parte, e.notas, e.imagen_alterada, e.imagen_base64 FROM Estudios as e INNER JOIN Tipos as t INNER JOIN Partes_cuerpo as p ON e.tipo=t.id and e.parte_cuerpo=p.id WHERE e.idUsuario = %s ORDER BY id DESC "
 
                     if inicio != None and fin != None:
                         # Tenemos paginación, debemos dar los estudios entre los estudios que nos estan pidiendo
