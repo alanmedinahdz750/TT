@@ -1,6 +1,7 @@
 import mysql.connector
 import json
 import azure.functions as func
+import base64
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
@@ -26,6 +27,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 # Pasar los valores a json
                 columns = [column[0] for column in cursor.description]
                 result = dict(zip(columns, cursor.fetchone()))
+
+                for estudio in result:
+                    estudio['imagen_base64'] = base64.b64encode(estudio['imagen_base64']).decode('utf-8')
 
                 if result is None:
                     return func.HttpResponse('Error: Estudio no encontrado.', status_code=400)
