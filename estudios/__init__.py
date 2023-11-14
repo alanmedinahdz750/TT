@@ -131,6 +131,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     for row in cursor.fetchall():
                         results.append(dict(zip(columns, row)))
 
+                    for estudio in results:
+                        estudio['imagen_base64'] = base64.b64encode(estudio['imagen_base64']).decode('utf-8')
+
             except Exception as e:
                 return func.HttpResponse('Error al realizar la consulta: {}'.format(str(e)), status_code=500)
             
