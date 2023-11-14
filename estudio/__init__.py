@@ -28,7 +28,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 columns = [column[0] for column in cursor.description]
                 result = dict(zip(columns, cursor.fetchone()))
 
-                result['imagen_base64'] = base64.b64encode(result['imagen_base64']).decode('utf-8')
+                if result['imagen_base64'] is None:
+                    result['imagen_base64'] =  ''
+                else:
+                    result['imagen_base64'] =  base64.b64encode(result['imagen_base64']).decode('utf-8')
 
                 if result is None:
                     return func.HttpResponse('Error: Estudio no encontrado.', status_code=400)
