@@ -54,9 +54,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 if respuesta.status_code == 200:
                     # Devolver la imagen, su id y la descripción en un formato JSON
                     retorno[elemento['instancia']] = {
-                        "Imagen": base64.b64encode(respuesta.content).decode('utf-8'),  # Decodificar la imagen y convertirla a cadena
-                        "BodyPartExamined" : elemento['BodyPartExamined'],
-                        "Modality": elemento['Modality']
+                        "imagen_base64": base64.b64encode(respuesta.content).decode('utf-8'),  # Decodificar la imagen y convertirla a cadena
+                        "parte" : elemento['BodyPartExamined'],
+                        "tipo": elemento['Modality']
                     }
                 else:
                     print("Error al descargar el estudio {i} de Orthanc")
