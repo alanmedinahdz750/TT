@@ -38,7 +38,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         
         cnx.commit()
         # creamos el diccionario de retorno
-        retorno = {}
+        retorno = []
         i = 0
 
         for elemento in lista_instancias:
@@ -53,11 +53,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 # Verificar si la solicitud fue exitosa (código de estado 200)
                 if respuesta.status_code == 200:
                     # Devolver la imagen, su id y la descripción en un formato JSON
-                    retorno[elemento['instancia']] = {
+                    retorno.append( {
+                        "id": elemento['instancia'],
                         "imagen_base64": base64.b64encode(respuesta.content).decode('utf-8'),  # Decodificar la imagen y convertirla a cadena
                         "parte" : elemento['BodyPartExamined'],
                         "tipo": elemento['Modality']
-                    }
+                    } )
                 else:
                     print("Error al descargar el estudio {i} de Orthanc")
     
