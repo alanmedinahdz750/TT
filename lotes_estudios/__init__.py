@@ -4,19 +4,46 @@ import requests
 import json
 import base64
 
+from concurrent.futures import ThreadPoolExecutor
+
+def descargar_imagen(instancia, i, resultado):
+    url_base = 'https://demo.orthanc-server.com/instances/'
+    url_completa = f"{url_base}{instancia}/preview"
+
+    try:
+        # Realizar la solicitud a la URL final
+        respuesta = requests.get(url_completa)
+
+        # Verificar si la solicitud fue exitosa (código de estado 200)
+        if respuesta.status_code == 200:
+            # Devolver la imagen, su id y la descripción en un formato JSON
+            return {
+                "id": instancia,
+                "imagen_base64": base64.b64encode(respuesta.content).decode('utf-8'),  # Decodificar la imagen y convertirla a cadena
+                "parte": resultado[1],
+                "tipo": resultado[2]
+            }
+        else:
+            print(f"Error al descargar el estudio {i} de Orthanc")
+
+    except Exception as e:
+        print(f"Error al descargar el estudio {i} con id {instancia}: {str(e)}")
+
 def main(req: func.HttpRequest) -> func.HttpResponse:
     limit = req.params.get('limit')
-    if not limit: return func.HttpResponse('Error: Falto el parametro limit.', status_code=400)
+    if not limit:
+        return func.HttpResponse('Error: Falto el parametro limit.', status_code=400)
 
     # Creamos el cursor para la base de datos
     cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
     cursor = cnx.cursor()
+
     try:
         # Consultar los estudios existentes
-        query = "SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc ORDER BY RAND() LIMIT %s"    
+        query = "SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc ORDER BY RAND() LIMIT %s"
         values = (int(limit),)
         cursor.execute(query, values)
-            
+
         # Pasar los valores a json
         resultados = cursor.fetchall()
 
@@ -35,43 +62,26 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 'Modality': resultado[2]
             }
             lista_instancias.append(instancia_info)
-        
+
         cnx.commit()
         # creamos el diccionario de retorno
         retorno = []
-        i = 0
 
-        for elemento in lista_instancias:
-            i+=1
-            url_base = 'https://demo.orthanc-server.com/instances/'
-            url_completa = f"{url_base}{elemento['instancia']}/preview"
+        with ThreadPoolExecutor() as executor:
+            # Utilizar ThreadPoolExecutor para descargar imágenes en paralelo
+            descargas = [executor.submit(descargar_imagen, instancia['instancia'], i + 1, resultado) for i, instancia in enumerate(lista_instancias)]
 
-            try:
-                # Realizar la solicitud a la URL final
-                respuesta = requests.get(url_completa)
+            for descarga in descargas:
+                resultado_descarga = descarga.result()
+                if resultado_descarga:
+                    retorno.append(resultado_descarga)
 
-                # Verificar si la solicitud fue exitosa (código de estado 200)
-                if respuesta.status_code == 200:
-                    # Devolver la imagen, su id y la descripción en un formato JSON
-                    retorno.append( {
-                        "id": elemento['instancia'],
-                        "imagen_base64": base64.b64encode(respuesta.content).decode('utf-8'),  # Decodificar la imagen y convertirla a cadena
-                        "parte" : elemento['BodyPartExamined'],
-                        "tipo": elemento['Modality']
-                    } )
-                else:
-                    print("Error al descargar el estudio {i} de Orthanc")
-    
-            except Exception as e:
-                print(f"Error al descargar el estudio {i} con id {elemento['instancia']}: {str(e)}")
-                #return func.HttpResponse(f"Error al descargar el estudio {i} con id {elemento['instancia']}: {str(e)}", status_code=500)
-        
         # Convertir el diccionario a una cadena JSON
         respuesta_json_str = json.dumps(retorno)
 
         # Devolver la cadena JSON y establecer el tipo de contenido en la respuesta HTTP
         return func.HttpResponse(respuesta_json_str, mimetype="application/json")
-    
+
     except Exception as e:
         return func.HttpResponse('Error al realizar la consulta de las instancias de Orthanc: {}'.format(str(e)), status_code=500)
     finally:
