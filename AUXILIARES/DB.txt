@@ -60,7 +60,7 @@ ALTER TABLE `Estudios` ADD FOREIGN KEY (`tipo`) REFERENCES `Tipos` (`id`);
 
 ALTER TABLE `Estudios` ADD FOREIGN KEY (`parte_cuerpo`) REFERENCES `Partes_cuerpo` (`id`);
 
-select informacion, BodyPartExamined, SeriesDescription, Modality from estudios_orthanc limit 2;
+select BodyPartExamined, SeriesDescription, Modality from estudios_orthanc ORDER BY RAND() limit 2;
 SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc WHERE BodyPartExamined = 'CUELLO' ORDER BY RAND() LIMIT 20;
 SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc WHERE Modality = 'TOMOGRAFIA COMPUTARIZADA' ORDER BY RAND() LIMIT 20;
 
