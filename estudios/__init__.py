@@ -2,6 +2,15 @@ import mysql.connector
 import json
 import base64
 import azure.functions as func
+import hashlib
+
+def generarCodigo(datos):
+
+    idhashed = hashlib.md5(str(datos).encode()).hexdigest()
+    idhex = hex(datos)[2:].zfill(6)
+    id_compartir = idhex[0:3] + idhashed[3]   +   idhex[3:6] + idhashed[6]
+
+    return id_compartir
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
@@ -50,6 +59,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     try:
                         # Obtener el ID del estudio recién insertado
                         id_estudio = cursor.lastrowid
+
+                        # Genera el codigo para compartir
+                        query = "UPDATE Estudios SET codigo=%s WHERE id=%s"
+                        values = (generarCodigo(id_estudio), id_estudio)
+
+                        cursor.execute(query, values)
+
                     except Exception as e:
                         cnx.rollback()
                         return func.HttpResponse('Error al realizar al consultar el id: {}'.format(str(e)), status_code=500)
