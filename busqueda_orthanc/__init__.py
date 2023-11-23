@@ -30,19 +30,11 @@ def descargar_imagen(instancia, i, resultado):
         print(f"Error al descargar el estudio {i} con id {instancia}: {str(e)}")
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    BodyPartExamined = req.params.get('BodyPartExamined')
-    SeriesDescription = req.params.get('SeriesDescription')
-    Modality = req.params.get('Modality')
-    StudyDescription = req.params.get('StudyDescription')
-
-    if not Modality:
-        Modality = ""
-    if not SeriesDescription:
-        SeriesDescription = ""
-    if not BodyPartExamined:
-        BodyPartExamined = ""
-    if not StudyDescription:
-        StudyDescription = ""
+    # Obtener los valores de los parámetros
+    BodyPartExamined = req.params.get('BodyPartExamined', '')
+    SeriesDescription = req.params.get('SeriesDescription', '')
+    Modality = req.params.get('Modality', '')
+    StudyDescription = req.params.get('StudyDescription', '')
 
     # Creamos el cursor para la base de datos
     cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
@@ -50,29 +42,43 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         try:
-            if BodyPartExamined == "" and SeriesDescription == "" and Modality == "" and StudyDescription == "":
-                # Consultar los estudios existentes
-                query = "SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc ORDER BY RAND() LIMIT 5"
-                cursor.execute(query, )
-            elif BodyPartExamined != "" and SeriesDescription == "" and Modality == "" and StudyDescription == "":
-                query = "SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc WHERE BodyPartExamined LIKE %s ORDER BY RAND() LIMIT 5"
-                values = ('%' + BodyPartExamined + '%',)
-                cursor.execute(query, values)
-            elif BodyPartExamined == "" and SeriesDescription != "" and Modality == "" and StudyDescription == "":
-                query = "SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc WHERE SeriesDescription LIKE %s ORDER BY RAND() LIMIT 5"
-                values = ('%' + SeriesDescription + '%',)
-                cursor.execute(query, values)
-            elif BodyPartExamined == "" and SeriesDescription == "" and Modality != "" and StudyDescription == "":
-                query = "SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc WHERE Modality LIKE %s ORDER BY RAND() LIMIT 20"
-                values = ('%' + Modality + '%',)
-                cursor.execute(query, values)
-            elif BodyPartExamined == "" and SeriesDescription == "" and Modality == "" and StudyDescription != "":
-                query = "SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc WHERE StudyDescription LIKE %s ORDER BY RAND() LIMIT 5"
-                values = ('%' + StudyDescription + '%',)
-                cursor.execute(query, values)
-        
-            # Pasar los valores a json
-            resultados = cursor.fetchall()
+            # Crear una lista de condiciones y valores
+            condiciones = []
+            valores = []
+
+            if BodyPartExamined:
+                condiciones.append("BodyPartExamined LIKE %s")
+                valores.append('%' + BodyPartExamined + '%')
+
+            if SeriesDescription:
+                condiciones.append("SeriesDescription LIKE %s")
+                valores.append('%' + SeriesDescription + '%')
+
+            if Modality:
+                condiciones.append("Modality LIKE %s")
+                valores.append('%' + Modality + '%')
+
+            if StudyDescription:
+                condiciones.append("StudyDescription LIKE %s")
+                valores.append('%' + StudyDescription + '%')
+
+            # Construir la consulta SQL final
+            query = "SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc"
+
+            if condiciones:
+                query += " WHERE " + " AND ".join(condiciones)
+
+            query += " ORDER BY RAND() LIMIT 5"
+
+            # Ejecutar la consulta
+            cursor.execute(query, tuple(valores)) 
+
+            try: 
+                # Pasar los valores a json
+                resultados = cursor.fetchall()
+            except Exception as e:
+                # Hubo algun problema, el resultado es vacio:
+                resultados = None
         except Exception as e:
             return func.HttpResponse('Error al realizar la consulta de las instancias en MySQL: {}'.format(str(e)), status_code=500)
 
@@ -96,7 +102,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # creamos el diccionario de retorno
         retorno = []
 
-        with ThreadPoolExecutor(max_workers=10) as executor:
+        with ThreadPoolExecutor() as executor:
             # Utilizar ThreadPoolExecutor para descargar imágenes en paralelo
             descargas = [executor.submit(descargar_imagen, instancia['instancia'], i + 1, resultado) for i, instancia in enumerate(lista_instancias)]
 
