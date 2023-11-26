@@ -1,4 +1,4 @@
-import json
+'''import json
 
 # Abrir el archivo JSON y cargar los datos
 with open('raw.json', 'r', encoding='utf-8') as file:
@@ -73,4 +73,4 @@ json_traducido = procesar_datos(json_data)
 with open('traducido.json', 'w', encoding='utf-8') as outfile:
     json.dump(json_traducido, outfile, indent=4, ensure_ascii=False)
 
-print("JSON modificado guardado en 'traducido.json'.")
+print("JSON modificado guardado en 'traducido.json'.")'''

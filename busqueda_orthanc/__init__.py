@@ -6,7 +6,7 @@ import base64
 
 from concurrent.futures import ThreadPoolExecutor
 
-def descargar_imagen(instancia, i, resultado):
+def descargar_imagen(instancia, i, BodyPartExamined,Modality):
     url_base = 'https://demo.orthanc-server.com/instances/'
     url_completa = f"{url_base}{instancia}/preview"
 
@@ -20,8 +20,8 @@ def descargar_imagen(instancia, i, resultado):
             return {
                 "id": instancia,
                 "imagen_base64": base64.b64encode(respuesta.content).decode('utf-8'),  # Decodificar la imagen y convertirla a cadena
-                "parte": resultado[1],
-                "tipo": resultado[2]
+                "parte": BodyPartExamined,
+                "tipo": Modality
             }
         else:
             print(f"Error al descargar el estudio {i} de Orthanc")
@@ -104,7 +104,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         with ThreadPoolExecutor() as executor:
             # Utilizar ThreadPoolExecutor para descargar imágenes en paralelo
-            descargas = [executor.submit(descargar_imagen, instancia['instancia'], i + 1, resultado) for i, instancia in enumerate(lista_instancias)]
+            descargas = [executor.submit(descargar_imagen, instancia['instancia'], i + 1, instancia['BodyPartExamined'], instancia['Modality']) for i, instancia in enumerate(lista_instancias)]
 
             for descarga in descargas:
                 resultado_descarga = descarga.result()

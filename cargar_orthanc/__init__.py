@@ -34,7 +34,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         datos = req.get_json()
 
         # Validar que todos los campos requeridos estén presentes en el JSON
-        campos_requeridos = ['instancia']
+        #campos_requeridos = ['instancia']
 
         '''for instancia, info in datos.items():
             for campo in campos_requeridos:
