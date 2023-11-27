@@ -31,7 +31,7 @@ def descargar_imagen(instancia, i, BodyPartExamined,Modality):
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     # Obtener los valores de los parámetros
-    param = req.params.get('param')
+    param = req.params.get('param').upper()
 
     if not param: return func.HttpResponse("Se necesita el parametro 'param' para hacer la busqueda", status_code=500)
 

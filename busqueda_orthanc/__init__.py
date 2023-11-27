@@ -31,10 +31,10 @@ def descargar_imagen(instancia, i, BodyPartExamined,Modality):
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     # Obtener los valores de los parámetros
-    BodyPartExamined = req.params.get('BodyPartExamined', '')
-    SeriesDescription = req.params.get('SeriesDescription', '')
-    Modality = req.params.get('Modality', '')
-    StudyDescription = req.params.get('StudyDescription', '')
+    BodyPartExamined = req.params.get('BodyPartExamined', '').upper()
+    SeriesDescription = req.params.get('SeriesDescription', '').upper()
+    Modality = req.params.get('Modality', '').upper()
+    StudyDescription = req.params.get('StudyDescription', '').upper()
 
     # Creamos el cursor para la base de datos
     cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
