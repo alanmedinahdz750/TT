@@ -36,18 +36,17 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 values = (idUsuario,)
                 cursor.execute(query, values)
                 id_verificacion = cursor.fetchone()
-                if id_verificacion is None: return func.HttpResponse('Error: Usuario no encontrado.', status_code=400)
+
+                if id_verificacion is None: return func.HttpResponse('Error: Usuario no encontrado.', status_code=404)
 
                 # Verificar que el estudio exista y no sea del mismo usuario
                 query = "SELECT * FROM estudios WHERE id = %s"
                 values = (idEstudio,)
                 cursor.execute(query, values)
-
-                # Pasar los valores a json
-                columns = [column[0] for column in cursor.description]
+                columns = [column[0] for column in cursor.description] # Pasar los valores a json
                 result = dict(zip(columns, cursor.fetchone()))
 
-                if result is None: return func.HttpResponse('Error: Estudio no encontrado.', status_code=400)
+                if result is None: return func.HttpResponse('Error: Estudio no encontrado.', status_code=404)
                 
                 # Verifica el id de usuario obtenido y ver si es el mismo que desea al que se copie
                 id_verif_usuario = result['idUsuario']
