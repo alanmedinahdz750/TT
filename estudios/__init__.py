@@ -45,14 +45,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 # Verificar si se encontró un usuario
                 id_verificacion = cursor.fetchone()
                 if id_verificacion is None:
-                    return func.HttpResponse('Error: Usuario no encontrado.', status_code=400)
+                    return func.HttpResponse('Error: Usuario no encontrado.', status_code=404)
                 else:
                     # Decodifica la imagen
-                    imagen_decodificada = base64.b64decode(datos['imagen_base64'])
+                    datos['imagen_base64'] = base64.b64decode(datos['imagen_base64'])
 
                     # Insertar un nuevo estudio en la base de datos
                     query = "INSERT INTO Estudios (idUsuario, imagen, descripcion, tipo, parte_cuerpo, notas, imagen_alterada, imagen_base64) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-                    values = (idUsuario, datos['imagen'], datos['descripcion'], datos['tipo'], datos['parte_cuerpo'], datos['notas'], datos['imagen_alterada'], imagen_decodificada)
+                    values = (idUsuario, datos['imagen'], datos['descripcion'], datos['tipo'], datos['parte_cuerpo'], datos['notas'], datos['imagen_alterada'], datos['imagen_base64'])
 
                     cursor.execute(query, values)
 
@@ -115,7 +115,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 id_verificacion = (cursor.fetchone())
                 
                 if id_verificacion is None:
-                    return func.HttpResponse('Error: Usuario no encontrado.', status_code=400)
+                    return func.HttpResponse('Error: Usuario no encontrado.', status_code=404)
                 
                 else:
                     # Consultar los estudios existentes
@@ -168,11 +168,63 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  P U T  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         elif req.method == 'PUT':
-            # Pensar cómo implementar la actualización de registros, lo más seguro es que sea 3/4 del post
-            return func.HttpResponse("METODO POR INTEGRAR (0-Infinito)", status_code=500)
+
+            # Obtener los datos del cuerpo de la solicitud HTTP en formato JSON
+            datos = req.get_json()
+            idEstudio = req.params.get('idEstudio')
+
+            if idEstudio is None: return func.HttpResponse('Error: Se requiere el id del estudio.', status_code=400)
+
+            # Conexión a la base de datos
+            cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
+            cursor = cnx.cursor()
+
+            try:
+
+                # Verificar que el estudio exista y no sea del mismo usuario
+                query = "SELECT * FROM estudios WHERE id = %s"
+                values = (idEstudio,)
+                cursor.execute(query, values)
+                
+                # Verificar si se encontró un usuario
+                id_verificacion = cursor.fetchone()
+                if id_verificacion is None: return func.HttpResponse('Error: Estudio no encontrado.', status_code=404)
+
+                # Decodifica la imagen si la encuentra
+                if 'imagen_base64' in datos:
+                    datos['imagen_base64'] = base64.b64decode(datos['imagen_base64'])
+                
+                # Construye los campos para hacer insert
+                campos = list(datos.keys())
+                sets = []
+                values = []
+                for campo in campos:
+                    if datos[campo] and campo.upper()!="ID":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
+                        sets.append(campo + " = %s")
+                        values.append(datos[campo])
+                cSets = ", ".join(sets)
+                values.append(idEstudio)                 # Agrega el id para el "WHERE id=%s"
+
+                if campos:
+                    query = "UPDATE Estudios SET " + cSets + " WHERE id=%s"
+                    cursor.execute(query, values)
+                cnx.commit()
+
+            except Exception as e:
+                cnx.rollback()
+                return func.HttpResponse('Error al realizar la actulización: {}'.format(str(e)), status_code=500)
+            
+            finally:
+                cursor.close()
+                cnx.close()
+            
+            # Enviar la respuesta HTTP con el id
+            return func.HttpResponse("Estudio con id: {}, Actualizado".format(str(idEstudio)), status_code=200)
+        
+
         else: 
             # Enviar la respuesta HTTP con el JSON
-            return func.HttpResponse("Método no permitido", status_code=400)
+            return func.HttpResponse("Método no permitido", status_code=405)
         
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  fin  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
