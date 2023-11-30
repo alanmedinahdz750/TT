@@ -58,9 +58,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                         if datos[campo] and campo.upper()!="ID":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
                             porecentaje_s.append("%s")
                             values.append(datos[campo])
-                    campos.append("idEstudio")
-                    porecentaje_s.append("%s")             # Agrega el id para el "WHERE id=%s"
-                    values.append(idEstudio)                             # Agrega el idEstudio en los valores"
+                    campos.append("idUsuario")
+                    porecentaje_s.append("%s")                     # Agrega el id para el "WHERE id=%s"
+                    values.append(idEstudio)                       # Agrega el idEstudio en los valores"
 
                     porecentaje_s = ", ".join(porecentaje_s)
                     campos =  ", ".join()
