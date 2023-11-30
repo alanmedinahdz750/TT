@@ -6,7 +6,7 @@ import base64
 
 from concurrent.futures import ThreadPoolExecutor
 
-def descargar_imagen(instancia, i, BodyPartExamined,Modality):
+def descargar_imagen(instancia, i, BodyPartExamined, Modality):
     url_base = 'https://demo.orthanc-server.com/instances/'
     url_completa = f"{url_base}{instancia}/preview"
 
