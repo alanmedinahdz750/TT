@@ -60,7 +60,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                             values.append(datos[campo])
                     campos.append("idUsuario")
                     porecentaje_s.append("%s")                     # Agrega el id para el "WHERE id=%s"
-                    values.append(idEstudio)                       # Agrega el idEstudio en los valores"
+                    values.append(idUsuario)                       # Agrega el idEstudio en los valores"
 
                     porecentaje_s = ", ".join(porecentaje_s)
                     campos =  ", ".join()
