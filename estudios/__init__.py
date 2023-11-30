@@ -47,7 +47,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 values = []
                 newcampos = []
                 for campo in campos:
-                    if datos[campo] and campo.upper()!="ID":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
+                    if datos[campo] and campo.upper()!="ID" and campo.upper()!="IDUSUARIO":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
                         porecentaje_s.append("%s")
                         values.append(datos[campo])
                         newcampos.append(campo)
@@ -56,10 +56,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 values.append(idUsuario)                       # Agrega el idEstudio en los valores"
 
                 porecentaje_s = ", ".join(porecentaje_s)
-                campos =  ", ".join(newcampos)
+                newcampos =  ", ".join(newcampos)
                 
                 # Insertar un nuevo estudio en la base de datos
-                query = "INSERT INTO Estudios (" + campos + ") VALUES (" + porecentaje_s + ")"
+                query = "INSERT INTO Estudios (" + newcampos + ") VALUES (" + porecentaje_s + ")"
                 cursor.execute(query, values)
 
                 try:
