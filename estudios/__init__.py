@@ -54,7 +54,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 values.append(idUsuario)                       # Agrega el idEstudio en los valores"
 
                 porecentaje_s = ", ".join(porecentaje_s)
-                campos =  ", ".join()
+                campos =  ", ".join(campos)
                 
                 # Insertar un nuevo estudio en la base de datos
                 query = "INSERT INTO Estudios (" + campos + ") VALUES (" + porecentaje_s + ")"
