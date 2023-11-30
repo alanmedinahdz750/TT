@@ -165,9 +165,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             return func.HttpResponse(json_response, status_code=200)
 
 
-    #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  P U T  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  D E L E T E  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        elif req.method == 'PUT':
+        elif req.method == 'DELETE':
 
             # Obtener los datos del cuerpo de la solicitud HTTP en formato JSON
             datos = req.get_json()
@@ -180,35 +180,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             cursor = cnx.cursor()
 
             try:
-
                 # Verificar que el estudio exista y no sea del mismo usuario
-                query = "SELECT * FROM estudios WHERE id = %s"
+                query = "DELETE FROM estudios WHERE id = %s"
                 values = (idEstudio,)
                 cursor.execute(query, values)
-                
-                # Verificar si se encontró un usuario
-                id_verificacion = cursor.fetchone()
-                if id_verificacion is None: return func.HttpResponse('Error: Estudio no encontrado.', status_code=404)
-
-                # Decodifica la imagen si la encuentra
-                if 'imagen_base64' in datos:
-                    datos['imagen_base64'] = base64.b64decode(datos['imagen_base64'])
-                
-                # Construye los campos para hacer insert
-                campos = list(datos.keys())
-                sets = []
-                values = []
-                for campo in campos:
-                    if datos[campo] and campo.upper()!="ID":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
-                        sets.append(campo + " = %s")
-                        values.append(datos[campo])
-                cSets = ", ".join(sets)
-                values.append(idEstudio)                 # Agrega el id para el "WHERE id=%s"
-
-                if campos:
-                    query = "UPDATE Estudios SET " + cSets + " WHERE id=%s"
-                    cursor.execute(query, values)
-                cnx.commit()
 
             except Exception as e:
                 cnx.rollback()
@@ -219,8 +194,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 cnx.close()
             
             # Enviar la respuesta HTTP con el id
-            return func.HttpResponse("Estudio con id: {}, Actualizado".format(str(idEstudio)), status_code=200)
-        
+            return func.HttpResponse("Estudio con id: {}, Borrado".format(str(idEstudio)), status_code=200)
 
         else: 
             # Enviar la respuesta HTTP con el JSON
