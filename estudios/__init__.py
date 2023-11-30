@@ -25,7 +25,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             if idUsuario is None: return func.HttpResponse('Error: Se requiere el id del usuario.', status_code=400)
 
             # Validar que todos los campos requeridos estén presentes en el JSON
-            campos_requeridos = ['imagen', 'json', 'descripcion', 'tipo', 'parte_cuerpo', 'notas', 'imagen_alterada','imagen_base64']
+            campos_requeridos = ['imagen', 'descripcion', 'tipo', 'parte_cuerpo', 'notas', 'imagen_alterada','imagen_base64']
 
             for campo in campos_requeridos:
                 if campo not in datos:
@@ -45,14 +45,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 # Verificar si se encontró un usuario
                 id_verificacion = cursor.fetchone()
                 if id_verificacion is None:
-                    return func.HttpResponse('Error: Usuario no encontrado.', status_code=400)
+                    return func.HttpResponse('Error: Usuario no encontrado.', status_code=404)
                 else:
                     # Decodifica la imagen
-                    imagen_decodificada = base64.b64decode(datos['imagen_base64'])
+                    datos['imagen_base64'] = base64.b64decode(datos['imagen_base64'])
 
                     # Insertar un nuevo estudio en la base de datos
-                    query = "INSERT INTO Estudios (idUsuario, imagen, json, descripcion, tipo, parte_cuerpo, notas, imagen_alterada, imagen_base64) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-                    values = (idUsuario, datos['imagen'], datos['json'], datos['descripcion'], datos['tipo'], datos['parte_cuerpo'], datos['notas'], datos['imagen_alterada'], imagen_decodificada)
+                    query = "INSERT INTO Estudios (idUsuario, imagen, descripcion, tipo, parte_cuerpo, notas, imagen_alterada, imagen_base64) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+                    values = (idUsuario, datos['imagen'], datos['descripcion'], datos['tipo'], datos['parte_cuerpo'], datos['notas'], datos['imagen_alterada'], datos['imagen_base64'])
 
                     cursor.execute(query, values)
 
@@ -115,11 +115,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 id_verificacion = (cursor.fetchone())
                 
                 if id_verificacion is None:
-                    return func.HttpResponse('Error: Usuario no encontrado.', status_code=400)
+                    return func.HttpResponse('Error: Usuario no encontrado.', status_code=404)
                 
                 else:
                     # Consultar los estudios existentes
-                    query = "SELECT e.id, e.imagen, e.json, e.descripcion, e.tipo as idTipo, t.tipo, e.parte_cuerpo as idParte, p.parte, e.notas, e.imagen_alterada, e.imagen_base64 FROM Estudios as e INNER JOIN Tipos as t INNER JOIN Partes_cuerpo as p ON e.tipo=t.id and e.parte_cuerpo=p.id WHERE e.idUsuario = %s ORDER BY id DESC "
+                    query = "SELECT e.id, e.imagen, e.descripcion, e.tipo as idTipo, t.tipo, e.parte_cuerpo as idParte, p.parte, e.notas, e.imagen_alterada, e.imagen_base64 FROM Estudios as e INNER JOIN Tipos as t INNER JOIN Partes_cuerpo as p ON e.tipo=t.id and e.parte_cuerpo=p.id WHERE e.idUsuario = %s ORDER BY id DESC "
 
                     if inicio != None and fin != None:
                         # Tenemos paginación, debemos dar los estudios entre los estudios que nos estan pidiendo
@@ -165,14 +165,40 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             return func.HttpResponse(json_response, status_code=200)
 
 
-    #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  P U T  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  D E L E T E  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        elif req.method == 'PUT':
-            # Pensar cómo implementar la actualización de registros, lo más seguro es que sea 3/4 del post
-            return func.HttpResponse("METODO POR INTEGRAR (0-Infinito)", status_code=500)
+        elif req.method == 'DELETE':
+
+            # Obtener los datos del cuerpo de la solicitud HTTP en formato JSON
+            datos = req.get_json()
+            idEstudio = req.params.get('idEstudio')
+
+            if idEstudio is None: return func.HttpResponse('Error: Se requiere el id del estudio.', status_code=400)
+
+            # Conexión a la base de datos
+            cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
+            cursor = cnx.cursor()
+
+            try:
+                # Verificar que el estudio exista y no sea del mismo usuario
+                query = "DELETE FROM estudios WHERE id = %s"
+                values = (idEstudio,)
+                cursor.execute(query, values)
+
+            except Exception as e:
+                cnx.rollback()
+                return func.HttpResponse('Error al borrar: {}'.format(str(e)), status_code=500)
+            
+            finally:
+                cursor.close()
+                cnx.close()
+            
+            # Enviar la respuesta HTTP con el id
+            return func.HttpResponse("Estudio con id: {}, Borrado".format(str(idEstudio)), status_code=200)
+
         else: 
             # Enviar la respuesta HTTP con el JSON
-            return func.HttpResponse("Método no permitido", status_code=400)
+            return func.HttpResponse("Método no permitido", status_code=405)
         
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  fin  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
