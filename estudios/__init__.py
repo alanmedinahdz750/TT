@@ -187,7 +187,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             except Exception as e:
                 cnx.rollback()
-                return func.HttpResponse('Error al realizar la actulización: {}'.format(str(e)), status_code=500)
+                return func.HttpResponse('Error al borrar: {}'.format(str(e)), status_code=500)
             
             finally:
                 cursor.close()
