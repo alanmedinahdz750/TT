@@ -166,7 +166,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
  #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  P U T  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        elif req.method == 'DELETE':
+        elif req.method == 'PUT':
 
             # Obtener los datos del cuerpo de la solicitud HTTP en formato JSON
             datos = req.get_json()
