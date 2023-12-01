@@ -173,7 +173,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             # Obtener los datos del cuerpo de la solicitud HTTP en formato JSON
             datos = req.get_json()
             idEstudio = req.params.get('idEstudio')
-
             if idEstudio is None: return func.HttpResponse('Error: Se requiere el id del estudio.', status_code=400)
 
             # Conexión a la base de datos
@@ -214,6 +213,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             except Exception as e:
                 cnx.rollback()
                 cnx.close()
+                return func.HttpResponse('Error al realizar la consulta: {}'.format(str(e)), status_code=500)
 
             # Enviar la respuesta HTTP con el id
             return func.HttpResponse("Estudio con id: {}, Actualizado".format(str(idEstudio)), status_code=200)
