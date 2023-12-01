@@ -128,12 +128,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         
      #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  D E L E T E  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        elif req.method == 'DELETE':
+        elif req.method.upper() == 'DELETE':
 
             # Obtener los datos del cuerpo de la solicitud HTTP en formato JSON
             datos = req.get_json()
             idEstudio = req.params.get('idEstudio')
-
             if idEstudio is None: return func.HttpResponse('Error: Se requiere el id del estudio.', status_code=400)
 
             # Conexión a la base de datos
