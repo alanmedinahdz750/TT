@@ -124,7 +124,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 cnx.close()
 
             # Enviar la respuesta HTTP con el id
-            return func.HttpResponse("Estudio con id: {}, Actualizado".format(str(query)), status_code=200)
+            return func.HttpResponse("Estudio con id: {}, Actualizado".format(str(idEstudio)), status_code=200)
         
      #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  D E L E T E  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
