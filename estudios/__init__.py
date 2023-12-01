@@ -212,11 +212,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             except Exception as e:
                 cnx.rollback()
-                cnx.close()
                 return func.HttpResponse('Error al realizar la consulta: {}'.format(str(e)), status_code=500)
 
+            finally:
+                cursor.close()
+                cnx.close()
+
             # Enviar la respuesta HTTP con el id
-            return func.HttpResponse("Estudio con id: {}, Actualizado".format(str(idEstudio)), status_code=200)
+            return func.HttpResponse("Estudio con id: {}, Actualizado".format(str(query)), status_code=200)
             
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  D E L E T E  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
