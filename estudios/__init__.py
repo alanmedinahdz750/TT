@@ -47,7 +47,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 values = []
                 newcampos = []
                 for campo in campos:
-                    if datos[campo] and campo.upper()!="ID" and campo.upper()!="IDUSUARIO":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
+                    if campo.upper()!="ID" and campo.upper()!="IDUSUARIO":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
                         porecentaje_s.append("%s")
                         values.append(datos[campo])
                         newcampos.append(campo)
@@ -111,7 +111,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             fin = req.params.get('fin')
 
             try:
-
                 query = "SELECT id FROM usuarios WHERE id = %s"
                 values = (idUsuario,)
 
@@ -119,45 +118,42 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 
                 # Verificar si se encontró un id de usuario
                 id_verificacion = (cursor.fetchone())
+                if id_verificacion is None: return func.HttpResponse('Error: Usuario no encontrado.', status_code=404)
                 
-                if id_verificacion is None:
-                    return func.HttpResponse('Error: Usuario no encontrado.', status_code=404)
-                
+                # Consultar los estudios existentes
+                query = "SELECT e.id, e.imagen, e.descripcion, e.tipo as idTipo, t.tipo, e.parte_cuerpo as idParte, p.parte, e.notas, e.imagen_alterada, e.imagen_base64 FROM Estudios as e INNER JOIN Tipos as t INNER JOIN Partes_cuerpo as p ON e.tipo=t.id and e.parte_cuerpo=p.id WHERE e.idUsuario = %s ORDER BY id DESC "
+
+                if inicio != None and fin != None:
+                    # Tenemos paginación, debemos dar los estudios entre los estudios que nos estan pidiendo
+                    query += "LIMIT %s OFFSET %s"
+                    values = (idUsuario,fin-inicio,inicio)
+
+                elif inicio != None and fin == None:
+                    # Tenemos inicio, pero no tenemo fin, debemos de consultar los estudios desde ese fin hasta el ultimo
+                    query += "OFFSET %s"
+                    values = (idUsuario,inicio)
+
+                elif inicio == None and fin != None:
+                    # No tenemos inicio, pero si fin, debemos tomar desde el primero hasta el limite
+                    query += "LIMIT %s"
+                    values = (idUsuario,fin)
+
                 else:
-                    # Consultar los estudios existentes
-                    query = "SELECT e.id, e.imagen, e.descripcion, e.tipo as idTipo, t.tipo, e.parte_cuerpo as idParte, p.parte, e.notas, e.imagen_alterada, e.imagen_base64 FROM Estudios as e INNER JOIN Tipos as t INNER JOIN Partes_cuerpo as p ON e.tipo=t.id and e.parte_cuerpo=p.id WHERE e.idUsuario = %s ORDER BY id DESC "
+                    # No tenemos ni inicio, ni fin, debemos dar todos los estudios
+                    values = (idUsuario,)
 
-                    if inicio != None and fin != None:
-                        # Tenemos paginación, debemos dar los estudios entre los estudios que nos estan pidiendo
-                        query = query + "LIMIT %s OFFSET %s"
-                        values = (idUsuario,fin-inicio,inicio)
+                cursor.execute(query, values)
 
-                    elif inicio != None and fin == None:
-                        # Tenemos inicio, pero no tenemo fin, debemos de consultar los estudios desde ese fin hasta el ultimo
-                        query = query + "OFFSET %s"
-                        values = (idUsuario,inicio)
+                columns = [column[0] for column in cursor.description]
+                results = []
+                for row in cursor.fetchall():
+                    results.append(dict(zip(columns, row)))
 
-                    elif inicio == None and fin != None:
-                        # No tenemos inicio, pero si fin, debemos tomar desde el primero hasta el limite
-                        query = query + "LIMIT %s"
-                        values = (idUsuario,fin)
-
+                for estudio in results:
+                    if estudio['imagen_base64'] is None:
+                        estudio['imagen_base64'] =  ''
                     else:
-                        # No tenemos ni inicio, ni fin, debemos dar todos los estudios
-                        values = (idUsuario,)
-
-                    cursor.execute(query, values)
-
-                    columns = [column[0] for column in cursor.description]
-                    results = []
-                    for row in cursor.fetchall():
-                        results.append(dict(zip(columns, row)))
-
-                    for estudio in results:
-                        if estudio['imagen_base64'] is None:
-                            estudio['imagen_base64'] =  ''
-                        else:
-                            estudio['imagen_base64'] =  base64.b64encode(estudio['imagen_base64']).decode('utf-8')
+                        estudio['imagen_base64'] =  base64.b64encode(estudio['imagen_base64']).decode('utf-8')
 
             except Exception as e:
                 return func.HttpResponse('Error al realizar la consulta: {}'.format(str(e)), status_code=500)
@@ -204,7 +200,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 sets = []
                 values = []
                 for campo in campos:
-                    if datos[campo] and campo.upper()!="ID":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
+                    if campo.upper()!="ID":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
                         sets.append(campo + " = %s")
                         values.append(datos[campo])
                 cSets = ", ".join(sets)
