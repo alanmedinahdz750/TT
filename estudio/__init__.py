@@ -69,8 +69,93 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             
             json_response = json.dumps(result)
 
-            return func.HttpResponse(json_response, status_code=200)                
+            return func.HttpResponse(json_response, status_code=200)  
+                      
+    #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  P O S T  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        elif req.method == 'POST':
+
+            # Obtener los datos del cuerpo de la solicitud HTTP en formato JSON
+            datos = req.get_json()
+            idEstudio = req.params.get('idEstudio')
+            if idEstudio is None: return func.HttpResponse('Error: Se requiere el id del estudio.', status_code=400)
+
+            # Conexión a la base de datos
+            cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
+            cursor = cnx.cursor()
+
+            try:
+
+                # Verificar que el estudio exista y no sea del mismo usuario
+                query = "SELECT * FROM estudios WHERE id = %s"
+                values = (idEstudio,)
+                cursor.execute(query, values)
+
+                # Verificar si se encontró un usuario
+                id_verificacion = cursor.fetchone()
+                if id_verificacion is None: return func.HttpResponse('Error: Estudio no encontrado.', status_code=404)
+
+                # Decodifica la imagen si la encuentra
+                if 'imagen_base64' in datos:
+                    datos['imagen_base64'] = base64.b64decode(datos['imagen_base64'])
+
+                # Construye los campos para hacer insert
+                campos = list(datos.keys())
+                sets = []
+                values = []
+                for campo in campos:
+                    if campo.upper()!="ID":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
+                        sets.append(campo + " = %s")
+                        values.append(datos[campo])
+                cSets = ", ".join(sets)
+                values.append(idEstudio)                 # Agrega el id para el "WHERE id=%s"
+
+                if campos:
+                    query = "UPDATE Estudios SET " + cSets + " WHERE id=%s"
+                    cursor.execute(query, values)
+                    cnx.commit()
+
+            except Exception as e:
+                cnx.rollback()
+                return func.HttpResponse('Error al actulizar: {}'.format(str(e)), status_code=500)
+
+            finally:
+                cursor.close()
+                cnx.close()
+
+            # Enviar la respuesta HTTP con el id
+            return func.HttpResponse("Estudio con id: {}, Actualizado".format(str(idEstudio)), status_code=200)
         
+     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  D E L E T E  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        elif req.method.upper() == 'DELETE':
+
+            # Obtener los datos del cuerpo de la solicitud HTTP en formato JSON
+            datos = req.get_json()
+            idEstudio = req.params.get('idEstudio')
+            if idEstudio is None: return func.HttpResponse('Error: Se requiere el id del estudio.', status_code=400)
+
+            # Conexión a la base de datos
+            cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
+            cursor = cnx.cursor()
+
+            try:
+                # Verificar que el estudio exista y no sea del mismo usuario
+                query = "DELETE FROM estudios WHERE id = %s"
+                values = (idEstudio,)
+                cursor.execute(query, values)
+
+            except Exception as e:
+                cnx.rollback()
+                return func.HttpResponse('Error al borrar: {}'.format(str(e)), status_code=500)
+            
+            finally:
+                cursor.close()
+                cnx.close()
+            
+            # Enviar la respuesta HTTP con el id
+            return func.HttpResponse("Estudio con id: {}, Borrado".format(str(idEstudio)), status_code=200)
+                   
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  O T R O S  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         else: 
