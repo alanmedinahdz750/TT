@@ -1,13 +1,13 @@
 {
-    "CABEZA_CUELLO_PET-TAC" : "CABEZA CUELLO",
-    "NECK" : "CUELLO",
-    "CHEST" : "PECHO",
-    "Knee (R)" : "RODILLA (DERECHA)",
-    "Thorax^1WB_PETCT" : "TORAX",
-    "CT2 tête, face, sinus" : "CABEZA CARA SENOS",
-    "EXTREMITY" : "EXTREMIDAD",
-    "HEAD" : "CABEZA",
-    "IRM cérébrale, neuro-crâne" : "CEREBRO CRANEO",
-    "Neck^1HEAD_NECK_PETCT" : "CABEZA CUELLO",
-    "RT^HEAD_NECK (Adult)" : "CABEZA CUELLO ADULTO"
+    "CABEZA_cuello_PET-TAC" : "Cabeza cuello",
+    "NECK" : "Cuello",
+    "CHEST" : "Pecho",
+    "Knee (R)" : "Rodilla (Derecha)",
+    "Thorax^1WB_PETCT" : "Torax",
+    "CT2 tête, face, sinus" : "Cabeza cara senos",
+    "EXTREMITY" : "Extremidad",
+    "HEAD" : "Cabeza",
+    "IRM cérébrale, neuro-crâne" : "Cerebro Craneo",
+    "Neck^1HEAD_NECK_PETCT" : "Cabeza cuello",
+    "RT^HEAD_NECK (Adult)" : "Cabeza cuello adulto"
 }

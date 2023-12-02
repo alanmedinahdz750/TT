@@ -1,7 +1,7 @@
 {
-    "MR" : "RESONANCIA MAGNETICA",
-    "CT" : "TOMOGRAFIA COMPUTARIZADA", 
-    "RTSTRUCT" : "RADIOTERAPIA ESTRUCTURADA",
-    "PT" : "TOMOGRAFIA POR EMISION DE POSITRONES",
-    "RTDOSE" : "DOSIS DE RADIACIÓN"
+    "MR" : "Resonancia magnética (RM)",
+    "CT" : "Tomografía computarizada (TC o TAC)", 
+    "RTSTRUCT" : "Radioterapia estructurada (RTSTRUCT)",
+    "PT" : "Tomografía por emisión de positrones (PET)",
+    "RTDOSE" : "Dosis de radiación (RTDOSE)"
 }
