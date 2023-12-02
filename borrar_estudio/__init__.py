@@ -21,6 +21,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             query = "DELETE FROM estudios WHERE id = %s"
             values = (idEstudio,)
             cursor.execute(query, values)
+            cnx.commit()
 
         except Exception as e:
             cnx.rollback()
