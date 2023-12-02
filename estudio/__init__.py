@@ -117,7 +117,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             except Exception as e:
                 cnx.rollback()
-                return func.HttpResponse('Error al actulizar: {}'.format(str(e)), status_code=500)
+                return func.HttpResponse('Error al actulizar: {}'.format(str(e) +" Datos: " +datos), status_code=500)
 
             finally:
                 cursor.close()
@@ -128,7 +128,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         
      #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  D E L E T E  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        elif req.method.upper() == 'DELETE':
+        elif req.method == 'DELETE':
 
             # Obtener los datos del cuerpo de la solicitud HTTP en formato JSON
             datos = req.get_json()
