@@ -68,7 +68,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             if condiciones:
                 query += " WHERE " + " AND ".join(condiciones)
 
-            query += " LIMIT 5"
+            query += " LIMIT 15"
 
             # Ejecutar la consulta
             cursor.execute(query, tuple(valores)) 

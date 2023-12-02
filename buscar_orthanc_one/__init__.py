@@ -41,7 +41,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         try:
-            query = "SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc WHERE Modality LIKE %s OR StudyDescription LIKE %s OR BodyPartExamined LIKE %s OR SeriesDescription LIKE %s OR informacion LIKE %s LIMIT 5"
+            query = "SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc WHERE Modality LIKE %s OR StudyDescription LIKE %s OR BodyPartExamined LIKE %s OR SeriesDescription LIKE %s OR informacion LIKE %s LIMIT 15"
 
             cursor.execute(query, ('%' + param + '%', '%' + param + '%', '%' + param + '%', '%' + param + '%', '%' + param + '%')) 
 
