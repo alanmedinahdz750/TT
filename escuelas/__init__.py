@@ -93,10 +93,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 cursor.execute(query, values)
             
                 # Pasar los valores a json
+                # columns = [column[0] for column in cursor.description]
+                # result = dict(zip(columns, cursor.fetchone()))
                 columns = [column[0] for column in cursor.description]
-                result = dict(zip(columns, cursor.fetchone()))
+                results = []
+                for row in cursor.fetchall():
+                    results.append(dict(zip(columns, row)))
 
-                if result is None:
+                if results is None:
                     return func.HttpResponse('Error: Escuela no encontrada.', status_code=400)
 
                 cnx.commit()
@@ -108,7 +112,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 cursor.close()
                 cnx.close()
             
-            json_response = json.dumps(result)
+            json_response = json.dumps(results)
 
             return func.HttpResponse(json_response, status_code=200)
 
