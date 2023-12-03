@@ -10,7 +10,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             # Recibe los parametros
             nId = req.params.get('id')
             tabla = req.params.get('tabla')
-            datos = req.get_json()
+            datos = {}
+            try:
+                datos = req.get_json()
+            except Exception as e:
+                datos = {}
 
             # Valida parametros
             tablas = ["areas", "estudios", "estudios_orthanc", "partes_cuerpo", "tipos", "universidades"]
