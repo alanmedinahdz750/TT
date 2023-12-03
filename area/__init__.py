@@ -14,8 +14,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             campos_requeridos = ['area']
 
             for campo in campos_requeridos:
-                if campo not in datos:
-                    return func.HttpResponse('Error: El campo {} es requerido.'.format(campo), status_code=400)
+                if campo not in datos: return func.HttpResponse('Error: El campo {} es requerido.'.format(campo), status_code=400)
             
             # Conexión a la base de datos
             cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
@@ -82,7 +81,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             try:
                 # Consultar los estudios existentes
                 values = []
-                query = "SELECT * FROM Areas"
+                query = "SELECT * FROM Universidades"
                 if idArea:
                     query += " WHERE id = %s"
                     values = (idArea,)
