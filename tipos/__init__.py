@@ -48,7 +48,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
                     cnx.commit()
                 else:
-                    return func.HttpResponse('Ya existe el area: {}'.format(cTipo), status_code=500)
+                    return func.HttpResponse('Ya existe el tipo de estudio: {}'.format(cTipo), status_code=500)
 
 
             except Exception as e:

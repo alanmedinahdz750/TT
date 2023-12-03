@@ -82,7 +82,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             try:
                 # Consultar los estudios existentes
                 values = []
-                query = "SELECT * FROM Universidades"
+                query = "SELECT * FROM Areas"
                 if idArea:
                     query += " WHERE id = %s"
                     values = (idArea,)
