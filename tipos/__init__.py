@@ -11,7 +11,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             datos = req.get_json()
 
             # Validar que todos los campos requeridos estén presentes en el JSON
-            campos_requeridos = ['area']
+            campos_requeridos = ['tipo']
 
             for campo in campos_requeridos:
                 if campo not in datos:
@@ -22,10 +22,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             cursor = cnx.cursor()
 
             try:
-                cArea = datos['area']
+                cTipo = datos['tipo']
 
-                query = "SELECT * FROM Areas WHERE area = %s"
-                values = (cArea,)
+                query = "SELECT * FROM Tipos WHERE tipo = %s"
+                values = (cTipo,)
 
                 cursor.execute(query, values)
                 
@@ -34,8 +34,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 if id_verificacion is None:
 
                     # Insertar un nuevo estudio en la base de datos
-                    query = "INSERT INTO Areas (area) VALUES (%s)"
-                    values = (datos['area'],)
+                    query = "INSERT INTO Tipos (area) VALUES (%s)"
+                    values = (datos['tipo'],)
 
                     cursor.execute(query, values)
 
@@ -48,7 +48,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
                     cnx.commit()
                 else:
-                    return func.HttpResponse('Ya existe el area: {}'.format(cArea), status_code=500)
+                    return func.HttpResponse('Ya existe el area: {}'.format(cTipo), status_code=500)
 
 
             except Exception as e:
@@ -60,7 +60,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 cnx.close()
 
             # Crear un diccionario con el ID del estudio insertado
-            id_return = {'idArea': id_insertado}
+            id_return = {'idTipo': id_insertado}
             
             # Convertir el diccionario a un JSON válido
             json_response = json.dumps(id_return)
@@ -72,7 +72,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         elif req.method == 'GET':
             # Verificamos que exista el idUsuario
-            idArea = req.params.get('id')
+            idTipos = req.params.get('id')
             #if idArea is None: return func.HttpResponse('Error: Se requiere el id de area.', status_code=400)
             
             # Conexión a la base de datos
@@ -82,10 +82,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             try:
                 # Consultar los estudios existentes
                 values = []
-                query = "SELECT * FROM Universidades"
-                if idArea:
+                query = "SELECT * FROM Tipos"
+                if idTipos:
                     query += " WHERE id = %s"
-                    values = (idArea,)
+                    values = (idTipos,)
 
                 cursor.execute(query, values)
             
@@ -112,7 +112,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             json_response = json.dumps(results)
 
             return func.HttpResponse(json_response, status_code=200)
-
 
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  O T R O S  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
