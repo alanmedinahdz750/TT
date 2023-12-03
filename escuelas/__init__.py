@@ -74,7 +74,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             # Verificamos que exista el idUsuario
             cAbreviacion = req.params.get('abreviacion')
             idUniversidad = req.params.get('id')
-            if cAbreviacion is None and idUniversidad is None: return func.HttpResponse('Error: Se requiere el id de escuela o su abreviación.', status_code=400)
             
             # Conexión a la base de datos
             cnx = mysql.connector.connect(user="dicomate", password="trabajoterminal1$", host="db-dicomate.mysql.database.azure.com", port=3306, database="TT", ssl_disabled=False)
@@ -82,11 +81,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             
             try:
                 # Consultar los estudios existentes
-                if idUniversidad is not None:
-                    query = "SELECT * FROM Universidades WHERE id = %s"
+                query = "SELECT * FROM Universidades"
+                if idUniversidad:
+                    query += " WHERE id = %s"
                     values = (idUniversidad,)
-                else:
-                    query = "SELECT * FROM Universidades WHERE abreviacion = %s"
+                elif cAbreviacion:
+                    query += " WHERE abreviacion = %s"
                     values = (cAbreviacion,)
 
                 cursor.execute(query, values)
@@ -113,7 +113,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
 
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  O T R O S  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
         else: 
             # Enviar la respuesta HTTP con el JSON
             return func.HttpResponse("Método no permitido", status_code=400)
