@@ -70,7 +70,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 # Construir la consulta SQL final
                 if campos:
                     query = "INSERT INTO Estudios (" + cCampos +") VALUES (" + cPorcentaje_s + ")"
-                    cursor.execute(query, values)
+                    cursor.execute(query, valores)
 
                     try:
                         # Obtener el ID del estudio recién insertado
