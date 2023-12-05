@@ -57,7 +57,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 valores = []
                 porcentaje_s = []
                 for columna in columns:
-                    if result[columna] and columna.upper()!="ID":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
+                    if columna.upper()!="ID":   # Se omite el campo id de estudio ya que se autoincrementa en la consulta
                         campos.append(columna)
                         porcentaje_s.append("%s")
                         if columna.upper()=="IDUSUARIO":
@@ -90,7 +90,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             except Exception as e:
                 cnx.rollback()
-                return func.HttpResponse('Error al realizar la inserción: {}'.format(str(e)), status_code=500)
+                return func.HttpResponse('Error al realizar la inserción: {}'.format(str(query)+" Exception:"+str(e)), status_code=500)
             
             finally:
                 cursor.close()
