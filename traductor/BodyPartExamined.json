@@ -9,5 +9,11 @@
     "HEAD" : "Cabeza",
     "IRM cérébrale, neuro-crâne" : "Cerebro Craneo",
     "Neck^1HEAD_NECK_PETCT" : "Cabeza cuello",
-    "RT^HEAD_NECK (Adult)" : "Cabeza cuello adulto"
+    "RT^HEAD_NECK (Adult)" : "Cabeza cuello adulto",
+    "" : ""
 }
+
+# Cuello
+Cabeza cuello
+Torax cuerpo entero
+Pecho

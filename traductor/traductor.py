@@ -1,4 +1,4 @@
-'''import json
+import json
 
 # Abrir el archivo JSON y cargar los datos
 with open('raw.json', 'r', encoding='utf-8') as file:
@@ -47,6 +47,8 @@ def procesar_datos(original_data):
             
             elif campo == 'BodyPartExamined':
                 dato_traducido = BodyPartExamined(texto)
+                if dato_traducido == "":
+                    dato_traducido = texto
 
             elif campo == 'Modality':
                 dato_traducido = Modality(texto)
@@ -58,10 +60,10 @@ def procesar_datos(original_data):
         if nuevo_value['informacion'] == "":
             nuevo_value['informacion'] = "No hay informacion"
 
-        if nuevo_value['BodyPartExamined'] == "":
-            nuevo_value['BodyPartExamined'] = BodyPartExamined(nuevo_value['StudyDescription'])
-            if nuevo_value['BodyPartExamined'] == "":
-                nuevo_value['BodyPartExamined'] = "No se conoce la parte del cuerpo"
+        #if nuevo_value['BodyPartExamined'] == "":
+        #    nuevo_value['BodyPartExamined'] = BodyPartExamined(nuevo_value['StudyDescription'])
+        #    if nuevo_value['BodyPartExamined'] == "":
+        #        nuevo_value['BodyPartExamined'] = "No se conoce la parte del cuerpo"
 
         nuevo_data[key] = nuevo_value
     return nuevo_data
@@ -73,4 +75,4 @@ json_traducido = procesar_datos(json_data)
 with open('traducido.json', 'w', encoding='utf-8') as outfile:
     json.dump(json_traducido, outfile, indent=4, ensure_ascii=False)
 
-print("JSON modificado guardado en 'traducido.json'.")'''
+print("JSON modificado guardado en 'traducido.json'.")
