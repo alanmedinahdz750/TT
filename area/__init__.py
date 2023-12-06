@@ -70,7 +70,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  G E T  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         elif req.method == 'GET':
-            # Verificamos que exista el idUsuario
+            # Verificamos que exista el id
             idArea = req.params.get('id')
             #if idArea is None: return func.HttpResponse('Error: Se requiere el id de area.', status_code=400)
             
@@ -81,7 +81,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             try:
                 # Consultar los estudios existentes
                 values = []
-                query = "SELECT * FROM Universidades"
+                query = "SELECT * FROM Areas"
                 if idArea:
                     query += " WHERE id = %s"
                     values = (idArea,)
@@ -117,7 +117,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         else: 
             # Enviar la respuesta HTTP con el JSON
-            return func.HttpResponse("Método no permitido", status_code=400)
+            return func.HttpResponse("Método no permitido", status_code=405)
         
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  fin  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
