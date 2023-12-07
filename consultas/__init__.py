@@ -19,7 +19,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             # Valida parametros
             tablas = ["areas", "estudios", "estudios_orthanc", "partes_cuerpo", "tipos", "universidades"]
             if tabla is None: func.HttpResponse('Error: Necesita una tabla a consultar.', status_code=400)
-            if tabla not in tablas: func.HttpResponse('Error: Tabla no autorizada o no encontrada.', status_code=400)
+            if tabla not in tablas: func.HttpResponse('Error: Tabla no autorizada o no encontrada.', status_code=403)
             if datos: 
                 if 'campos' not in datos: return func.HttpResponse('Error: Si consulta campos en especifico adjunte "datos" en un jason con un arreglo de campos.'.format(campo), status_code=400)
 
