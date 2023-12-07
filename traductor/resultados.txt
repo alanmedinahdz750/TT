@@ -3,51 +3,53 @@ informacion: [
 ]
 SeriesDescription: [
     "",
-    "Resonancia magnética con ponderación en T1 en 3D con técnica eco de campo rápido y con contraste",
-    "Cor FSE PD",
-    "Resonancia magnética con ponderación en T2 con técnica 'fast echo' y 'echo planar imaging'",
-    "Resonancia magnética axial con técnica 'fast spin echo' y 'densidad de protones'",
-    "Dosis de Eclipse (modificado con el software Eclipse)",
-    "Cabeza cuello 2.0 B30s",
-    "Resonancia magnética sagital con técnica 'fas recovery fast spin echo', 'proton density' y supresión de la grasa",
-    "Tomografía por emisión de positrones de cuerpo completo sin corregir",
-    "SOUS",
-    "Cor FSE T1",
-    "Tomografía computarizada de cuerpo completo con contraste 5.0 B30s",
-    "Pie tobillo 1.0mm estándar",
-    "Lado izquierdo",
-    "Ubicación derecha",
-    "COU IV",
-    "Resonancia magnética sagital con  técnica 'fast spin echo' y 'T2'",
-    "sT2/TSE/T",
-    "Resonancia magnética con ponderación en T1 con  técnica 'spin echo' y 'extrp'",
-    "Tomografía computarizada cabeza/cuello 5.0 B30s",
-    "Conjuntos de estructuras utilizados en el software de radioterapia oncológica ARIA",
-    "Tomografía por emisión de positrones de cuerpo completo",
     "Resonancia magnética con secuencia T2 ponderada en saturación grasa y recuperación de la inversión atenuada por fluido",
-    "Tomografía computarizada maxilofacial a 0.75mm y 'H60s'"
+    "Resonancia magnética axial con técnica 'fast spin echo' y 'densidad de protones'",
+    "Tomografía computarizada cabeza/cuello 5.0 B30s",
+    "Tomografía por emisión de positrones de cuerpo completo sin corregir",
+    "Resonancia magnética con ponderación en T2 con técnica 'fast echo' y 'echo planar imaging'",
+    "Cor FSE PD",
+    "Resonancia magnética sagital con  técnica 'fast spin echo' y 'T2'",
+    "Pie tobillo 1.0mm estándar",
+    "Cabeza cuello 2.0 B30s",
+    "Tomografía computarizada de cuerpo completo con contraste 5.0 B30s",
+    "Cor FSE T1",
+    "COU IV",
+    "Lado izquierdo",
+    "Tomografía computarizada maxilofacial a 0.75mm y 'H60s'",
+    "Ubicación derecha",
+    "Conjuntos de estructuras utilizados en el software de radioterapia oncológica ARIA",
+    "Resonancia magnética con ponderación en T1 en 3D con técnica eco de campo rápido y con contraste",
+    "Resonancia magnética sagital con técnica 'fas recovery fast spin echo', 'proton density' y supresión de la grasa",
+    "Dosis de Eclipse (modificado con el software Eclipse)",
+    "SOUS",
+    "Tomografía por emisión de positrones de cuerpo completo",
+    "sT2/TSE/T",
+    "Resonancia magnética con ponderación en T1 con  técnica 'spin echo' y 'extrp'"
 ]
 StudyDescription: [
-    "TORAX CUERPO ENTERO TOMOGRAFÍA POR EMISIÓN DE POSITRONES CON TOMOGRAFÍA COMPUTARIZADA",
-    "EXTREMIDADES INFERIORES PIE TOBILLO ULTRA ALTA DEFINICION (ADULTO)",
     "TOMOGRAFIA COMPUTARIZADA DE CABEZA, CARA Y SENOS",
+    "RESONANCIA MAGNÉTICA CEREBRAL NEUROCRÁNEO",
+    "EXTREMIDADES INFERIORES PIE TOBILLO ULTRA ALTA DEFINICION (ADULTO)",
+    "RADIOTERAPIA DE CABEZA Y CUELLO (ADULTO)",
+    "TOMOGRAFÍA COMPUTARIZADA POR EMISION DE POSITRONES CABEZA CUELLO ",
     "RODILLA (DERECHA)",
     "CABEZA DENTAL (ADULTO)",
-    "TOMOGRAFÍA COMPUTARIZADA POR EMISION DE POSITRONES CABEZA CUELLO ",
-    "RADIOTERAPIA DE CABEZA Y CUELLO (ADULTO)",
-    "RESONANCIA MAGNÉTICA CEREBRAL NEUROCRÁNEO"
+    "TORAX CUERPO ENTERO TOMOGRAFÍA POR EMISIÓN DE POSITRONES CON TOMOGRAFÍA COMPUTARIZADA"
 ]
 BodyPartExamined: [
-    "",
-    "Cuello",
+    "Cabeza, cara y senos",
+    "Extremidad",
+    "Cráneo",
+    "Rodilla",
     "Cabeza",
-    "Pecho",
-    "Extremidad"
+    "Cabeza y cuello",
+    "Pecho"
 ]
 Modality: [
-    "Tomografía computarizada (TC o TAC)",
-    "Radioterapia estructurada (RTSTRUCT)",
     "Resonancia magnética (RM)",
-    "Dosis de radiación (RTDOSE)",
-    "Tomografía por emisión de positrones (PET)"
+    "Radioterapia estructurada (RTSTRUCT)",
+    "Tomografía por emisión de positrones (PET)",
+    "Tomografía computarizada (TC o TAC)",
+    "Dosis de radiación (RTDOSE)"
 ]
