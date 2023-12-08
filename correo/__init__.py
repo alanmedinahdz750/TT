@@ -27,7 +27,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             try:
 
                 # Verificar que el estudio exista y no sea del mismo usuario
-                query = "SELECT contrasena, correo FROM usuarios"
+                query = "SELECT contrasena, correo FROM usuarios "
                 if idUsuario is not None:
                     query += "WHERE id = %s"
                     values = (idUsuario,)
