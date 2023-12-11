@@ -31,7 +31,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             
             try:
                 # Armado de consulta
-                campos = ["id", "imagen", "descripcion", "notas", "imagen_alterada", "imagen_base64", "codigo", "matriz", "gauss", "brillo", "contraste", "blur", "invertido"]
+                campos = ["id", "imagen", "descripcion", "notas", "imagen_base64", "codigo", "matriz", "gauss", "brillo", "contraste", "blur", "invertido"]
                 query = "SELECT e.tipo as idTipo, t.tipo, e.parte_cuerpo as idParte, p.parte, " + camposConsulta("e.",campos)
                 query += " FROM Estudios as e INNER JOIN Tipos as t INNER JOIN Partes_cuerpo as p ON e.tipo=t.id and e.parte_cuerpo=p.id WHERE "
 
