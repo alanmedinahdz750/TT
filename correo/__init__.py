@@ -71,7 +71,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 # print("successfully sent email to %s:" % (msg['To']))
 
             except Exception as e:
-                return func.HttpResponse('Error: {}'.format(str(e)), status_code=500)
+                return func.HttpResponse('Error al enviar el correo: {}'.format(str(e)), status_code=500)
 
             finally:
                 cnx.close()
