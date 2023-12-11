@@ -121,7 +121,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 if id_verificacion is None: return func.HttpResponse('Error: Usuario no encontrado.', status_code=404)
                 
                 # Consultar los estudios existentes
-                query = "SELECT e.id, e.imagen, e.descripcion, e.tipo as idTipo, t.tipo, e.parte_cuerpo as idParte, p.parte, e.notas, e.imagen_alterada, e.imagen_base64 FROM Estudios as e INNER JOIN Tipos as t INNER JOIN Partes_cuerpo as p ON e.tipo=t.id and e.parte_cuerpo=p.id WHERE e.idUsuario = %s ORDER BY id DESC "
+                query = "SELECT e.id, e.imagen, e.descripcion, e.tipo as idTipo, t.tipo, e.parte_cuerpo as idParte, p.parte, e.notas, e.imagen_base64 FROM Estudios as e INNER JOIN Tipos as t INNER JOIN Partes_cuerpo as p ON e.tipo=t.id and e.parte_cuerpo=p.id WHERE e.idUsuario = %s ORDER BY id DESC "
 
                 if inicio != None and fin != None:
                     # Tenemos paginación, debemos dar los estudios entre los estudios que nos estan pidiendo
