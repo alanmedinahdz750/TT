@@ -6,3 +6,5 @@ azure-functions
 mysql-connector-python
 requests
 openai==0.28
+#BestToolbox
+#pydicom
