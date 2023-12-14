@@ -67,3 +67,9 @@ SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc WHERE Modalit
 SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc WHERE Modality like '%TOMOGRAFI%' ORDER BY RAND() LIMIT 20;
 
 SELECT instancia, BodyPartExamined, Modality FROM estudios_orthanc WHERE Modality LIKE '%IA%' AND StudyDescription LIKE '%GRAFI%' ORDER BY RAND() LIMIT 20;
+
+SELECT DISTINCT estudios_orthanc.BodyPartExamined FROM estudios_orthanc JOIN partes_cuerpo ON estudios_orthanc.BodyPartExamined = partes_cuerpo.parte;
+SELECT DISTINCT BodyPartExamined FROM estudios_orthanc;
+SELECT DISTINCT parte FROM partes_cuerpo;
+
+insert into partes_cuerpo values (35, 'Rodilla');
