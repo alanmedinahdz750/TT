@@ -32,4 +32,4 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             cnx.close()
         
         # Enviar la respuesta HTTP con el id
-        return func.HttpResponse("Usuario con id: {}, Borrado".format(str(idEstudio)), status_code=200)
+        return func.HttpResponse("Usuario con id: {}, Borrado".format(str(idUsuario)), status_code=200)
